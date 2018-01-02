@@ -1,5 +1,5 @@
 import React from "react"
-import { View, TouchableOpacity } from "react-native"
+import { View, TouchableHighlight } from "react-native"
 import { Text } from "react-native-elements"
 
 class JobList extends React.Component {
@@ -9,13 +9,13 @@ class JobList extends React.Component {
 
   render() {
     return (
-      <TouchableOpacity onPress={this.handlePress}>
+      <TouchableHighlight onPress={this.handlePress}>
         <View style={{ padding: 10, borderBottomWidth: 1, borderBottomColor: "#999" }}>
           <Text h3>JobList {this.props.job}</Text>
           <Text h4>Facebook Inc</Text>
           <Text>IDR 10.000.000 - 15.000.000</Text>
         </View>
-      </TouchableOpacity>
+      </TouchableHighlight>
     )
   }
 }
