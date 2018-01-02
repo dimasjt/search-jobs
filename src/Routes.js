@@ -4,6 +4,8 @@ import AuthScreen from "./screens/AuthScreen"
 import DashboardScreen from "./screens/DashboardScreen"
 import MyJobsScreen from "./screens/MyJobsScreen"
 import SavedJobsScreen from "./screens/SavedJobsScreen"
+import DetailJobScreen from "./screens/DetailJobScreen"
+import NewJobScreen from "./screens/NewJobScreen"
 
 const Routes = TabNavigator({
   Auth: {
@@ -19,13 +21,31 @@ const Routes = TabNavigator({
   Dashboard: {
     screen: TabNavigator({
       Dashboard: {
-        screen: DashboardScreen,
-      },
-      MyJobs: {
-        screen: MyJobsScreen,
+        screen: StackNavigator({
+          Dashboard: {
+            screen: DashboardScreen
+          },
+          DetailJob: {
+            screen: DetailJobScreen,
+          },
+        }),
       },
       SavedJobs: {
-        screen: SavedJobsScreen,
+        screen: StackNavigator({
+          SavedJobs: {
+            screen: SavedJobsScreen,
+          },
+        }),
+      },
+      MyJobs: {
+        screen: StackNavigator({
+          MyJobs: {
+            screen: MyJobsScreen,
+          },
+          NewJob: {
+            screen: NewJobScreen,
+          },
+        }),
       },
     }),
     navigationOptions: {
