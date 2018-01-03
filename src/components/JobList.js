@@ -7,6 +7,7 @@ import { Ionicons } from "@expo/vector-icons"
 
 import css from "../styles"
 
+import currency from "../util/currency"
 import { db, auth } from "../firebase"
 
 class JobList extends React.Component {
@@ -56,7 +57,7 @@ class JobList extends React.Component {
           <View style={{ padding: 10, borderBottomWidth: 1, borderBottomColor: "#ccc" }}>
             <Text h3>{job.name}</Text>
             <Text h4>{job.company}</Text>
-            <Text>IDR {job.salary_from} - {job.salary_to}</Text>
+            <Text>Salary: {currency(job.salary_from)} - {currency(job.salary_to)}</Text>
           </View>
         </TouchableHighlight>
       </Swipeable>

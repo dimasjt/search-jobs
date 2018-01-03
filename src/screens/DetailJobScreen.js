@@ -7,6 +7,7 @@ import MapView from "react-native-maps"
 
 // NOTE: search location when location is null
 
+import currency from "../util/currency"
 import * as colors from "../styles/colors"
 
 class DetailJobScreen extends React.Component {
@@ -36,7 +37,7 @@ class DetailJobScreen extends React.Component {
         <View style={{ padding: 10 }}>
           <Text h3>{job.name}</Text>
           <Text h4>{job.company}</Text>
-          <Text>Salary: IDR {job.salary_from} - {job.salary_to}</Text>
+          <Text>Salary: {currency(job.salary_from)} - {currency(job.salary_to)}</Text>
         </View>
 
         <Divider style={{ height: 1, backgroundColor: "#cccccc" }} />
