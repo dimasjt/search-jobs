@@ -1,14 +1,23 @@
 import React from "react"
-import { View, Text, FlatList } from "react-native"
+import { View, FlatList } from "react-native"
+import { Ionicons } from "@expo/vector-icons"
 
 import JobList from "../components/JobList"
 
-import { db } from "../firebase"
+import { auth, db } from "../firebase"
 
 class DashboardScreen extends React.Component {
-  static navigationOptions = {
+  static navigationOptions = ({ navigation }) => ({
     headerTitle: "SearchJobs",
-  }
+    headerRight: (
+      <Ionicons
+        name="ios-log-out"
+        size={32}
+        style={{ marginRight: 10 }}
+        onPress={() => auth.signOut().then(() => navigation.navigate("Auth"))}
+      />
+    ),
+  })
 
   jobsRef = db.child("jobs")
 
