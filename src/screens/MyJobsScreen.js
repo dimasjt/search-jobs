@@ -4,6 +4,8 @@ import { Ionicons } from "@expo/vector-icons"
 
 import JobList from "../components/JobList"
 
+import { db, auth } from "../firebase"
+
 class MyJobsScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
     headerTitle: "My Jobs",
@@ -17,8 +19,31 @@ class MyJobsScreen extends React.Component {
     )
   })
 
+  jobsRef = db.child("jobs")
+
   state = {
     jobs: []
+  }
+
+  componentDidMount() {
+    auth.onAuthStateChanged(() => {
+      if (auth.currentUser) {
+        this.getJobs()
+      }
+    })
+  }
+
+  getJobs = () => {
+    this.jobsRef.orderByChild("user").equalTo(auth.currentUser.uid).on("value", (snapshot) => {
+      let items = []
+      snapshot.forEach((child) => {
+        let item = child.val()
+        item["key"] = child.key
+        items.push(item)
+      })
+
+      this.setState({ jobs: items })
+    })
   }
 
   renderItem = ({ item }) => {
@@ -36,7 +61,6 @@ class MyJobsScreen extends React.Component {
       <View>
         <FlatList
           data={this.state.jobs}
-          keyExtractor={(item) => item}
           renderItem={this.renderItem}
           style={{ height: "100%" }}
         />
