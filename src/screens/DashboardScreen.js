@@ -38,6 +38,7 @@ class DashboardScreen extends React.Component {
       <JobList
         {...this.props}
         job={item}
+        screen="dashboard"
       />
     )
   }

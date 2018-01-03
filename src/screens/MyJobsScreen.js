@@ -52,6 +52,7 @@ class MyJobsScreen extends React.Component {
         key={item}
         {...this.props}
         job={item}
+        screen="myjobs"
       />
     )
   }

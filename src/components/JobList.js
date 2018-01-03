@@ -7,7 +7,7 @@ import { Ionicons } from "@expo/vector-icons"
 
 import css from "../styles"
 
-import { db } from "../firebase"
+import { db, auth } from "../firebase"
 
 class JobList extends React.Component {
   handlePress = () => {
@@ -22,24 +22,36 @@ class JobList extends React.Component {
     Alert.alert("Delete job", "Are you sure you want to delete the job?", actions)
   }
 
+  handleBookmark = () => {
+    db.child(`bookmarks/${auth.currentUser.uid}`).update({
+      [this.props.job.key]: true,
+    })
+  }
+
   deleteJob = () => {
     db.child(`jobs/${this.props.job.key}`).remove(() => { })
   }
 
   render() {
-    const { job } = this.props
+    const { job, screen } = this.props
 
-    const rightButtons = [
-      <TouchableOpacity key="0" style={[css.itemAction, { backgroundColor: "#cc0000" }]} onPress={this.handleDelete}>
+    const rightButtons = screen === "myjobs" ? [
+      <TouchableOpacity key="0" style={css.rightAction} onPress={this.handleDelete}>
         <Ionicons name="ios-trash-outline" size={36} />
       </TouchableOpacity>,
-      <TouchableOpacity key="1" style={[css.itemAction, { backgroundColor: "#00ffee" }]}>
+      <TouchableOpacity key="1" style={css.rightAction}>
         <Ionicons name="ios-create-outline" size={36} />
       </TouchableOpacity>,
-    ]
+    ] : null
+
+    const leftButtons = screen !== "myjobs" ? [
+      <TouchableOpacity key="0" style={css.leftAction} onPress={this.handleBookmark}>
+        <Ionicons name="ios-bookmark-outline" size={36} />
+      </TouchableOpacity >,
+    ] : null
 
     return (
-      <Swipeable rightButtons={rightButtons} rightButtonWidth={75}>
+      <Swipeable rightButtons={rightButtons} leftButtons={leftButtons} rightButtonWidth={75}>
         <TouchableHighlight onPress={this.handlePress}>
           <View style={{ padding: 10, borderBottomWidth: 1, borderBottomColor: "#ccc" }}>
             <Text h3>{job.name}</Text>
@@ -55,6 +67,7 @@ class JobList extends React.Component {
 JobList.propTypes = {
   job: PropTypes.object.isRequired,
   navigation: PropTypes.object,
+  screen: PropTypes.string.isRequired,
 }
 
 export default JobList
