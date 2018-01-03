@@ -13,7 +13,7 @@ class DashboardScreen extends React.Component {
   jobsRef = db.child("jobs")
 
   state = {
-    jobs: []
+    jobs: [],
   }
 
   componentWillMount() {
@@ -44,7 +44,7 @@ class DashboardScreen extends React.Component {
 
   render() {
     return (
-      <View>
+      <View style={{ backgroundColor: "#fefefe" }}>
         <FlatList
           data={this.state.jobs}
           renderItem={this.renderItem}

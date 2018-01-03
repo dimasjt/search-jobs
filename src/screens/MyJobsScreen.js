@@ -16,13 +16,13 @@ class MyJobsScreen extends React.Component {
         size={32}
         style={{ marginRight: 10 }}
       />
-    )
+    ),
   })
 
   jobsRef = db.child("jobs")
 
   state = {
-    jobs: []
+    jobs: [],
   }
 
   componentDidMount() {
@@ -58,7 +58,7 @@ class MyJobsScreen extends React.Component {
 
   render() {
     return (
-      <View>
+      <View style={{ backgroundColor: "#fefefe" }}>
         <FlatList
           data={this.state.jobs}
           renderItem={this.renderItem}
