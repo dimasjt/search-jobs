@@ -11,11 +11,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 
 const Routes = TabNavigator({
   Auth: {
-    screen: StackNavigator({
-      Auth: {
-        screen: AuthScreen
-      }
-    }),
+    screen: AuthScreen,
     navigationOptions: {
       tabBarVisible: false,
     },
@@ -68,7 +64,7 @@ const Routes = TabNavigator({
             return <Ionicons name={name} size={32} />
           },
           tabBarLabel: "My Jobs",
-        }
+        },
       },
     }),
     navigationOptions: {

@@ -4,6 +4,7 @@ import { Ionicons } from "@expo/vector-icons"
 
 import JobList from "../components/JobList"
 
+import * as colors from "../styles/colors"
 import { db, auth } from "../firebase"
 
 class MyJobsScreen extends React.Component {
@@ -59,7 +60,7 @@ class MyJobsScreen extends React.Component {
 
   render() {
     return (
-      <View style={{ backgroundColor: "#fefefe" }}>
+      <View style={{ backgroundColor: colors.white }}>
         <FlatList
           data={this.state.jobs}
           renderItem={this.renderItem}

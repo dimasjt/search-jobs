@@ -7,6 +7,8 @@ import MapView from "react-native-maps"
 
 // NOTE: search location when location is null
 
+import * as colors from "../styles/colors"
+
 class DetailJobScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
     headerTitle: navigation.state.params.job.name,
@@ -17,7 +19,7 @@ class DetailJobScreen extends React.Component {
         size={32}
         style={{ marginRight: 10 }}
       />
-    )
+    ),
   })
 
   state = { job: {} }
@@ -30,7 +32,7 @@ class DetailJobScreen extends React.Component {
     const { job } = this.state
 
     return (
-      <View>
+      <View style={{ backgroundColor: colors.white, flex: 1 }}>
         <View style={{ padding: 10 }}>
           <Text h3>{job.name}</Text>
           <Text h4>{job.company}</Text>
