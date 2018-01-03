@@ -1,6 +1,5 @@
 import React from "react"
 import { View, FlatList } from "react-native"
-import { Button } from "react-native-elements"
 import { Ionicons } from "@expo/vector-icons"
 
 import JobList from "../components/JobList"
@@ -13,12 +12,13 @@ class MyJobsScreen extends React.Component {
         name="ios-add"
         onPress={() => navigation.navigate("NewJob")}
         size={32}
+        style={{ marginRight: 10 }}
       />
     )
   })
 
   state = {
-    jobs: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    jobs: []
   }
 
   renderItem = ({ item }) => {

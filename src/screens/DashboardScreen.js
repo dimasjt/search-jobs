@@ -3,19 +3,39 @@ import { View, Text, FlatList } from "react-native"
 
 import JobList from "../components/JobList"
 
+import { db } from "../firebase"
+
 class DashboardScreen extends React.Component {
   static navigationOptions = {
     headerTitle: "SearchJobs",
   }
 
+  jobsRef = db.child("jobs")
+
   state = {
-    jobs: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    jobs: []
+  }
+
+  componentWillMount() {
+    this.getJobs()
+  }
+
+  getJobs = () => {
+    this.jobsRef.orderByKey().on("value", (snapshot) => {
+      let items = []
+      snapshot.forEach((child) => {
+        let item = child.val()
+        item["key"] = child.key
+        items.push(item)
+      })
+
+      this.setState({ jobs: items })
+    })
   }
 
   renderItem = ({ item }) => {
     return (
       <JobList
-        key={item}
         {...this.props}
         job={item}
       />
@@ -27,7 +47,6 @@ class DashboardScreen extends React.Component {
       <View>
         <FlatList
           data={this.state.jobs}
-          keyExtractor={(item) => item}
           renderItem={this.renderItem}
           style={{ height: "100%" }}
         />
