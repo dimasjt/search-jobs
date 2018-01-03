@@ -5,7 +5,7 @@ import PropTypes from "prop-types"
 
 class JobList extends React.Component {
   handlePress = () => {
-    this.props.navigation.navigate("DetailJob")
+    this.props.navigation.navigate("DetailJob", { job: this.props.job })
   }
 
   render() {

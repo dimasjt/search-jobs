@@ -1,10 +1,15 @@
 import React from "react"
-import { View, Text } from "react-native"
+import { View } from "react-native"
+import { Text, Divider } from "react-native-elements"
 import { Ionicons } from "@expo/vector-icons"
+import PropTypes from "prop-types"
+import MapView from "react-native-maps"
+
+// NOTE: search location when location is null
 
 class DetailJobScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
-    headerTitle: "DetailJob",
+    headerTitle: navigation.state.params.job.name,
     headerRight: (
       <Ionicons
         name="ios-bookmark-outline"
@@ -14,13 +19,52 @@ class DetailJobScreen extends React.Component {
       />
     )
   })
+
+  state = { job: {} }
+
+  componentWillMount() {
+    this.setState({ job: this.props.navigation.state.params.job })
+  }
+
   render() {
+    const { job } = this.state
+
     return (
       <View>
-        <Text>DetailJobScreen</Text>
+        <View style={{ padding: 10 }}>
+          <Text h3>{job.name}</Text>
+          <Text h4>{job.company}</Text>
+          <Text>Salary: IDR {job.salary_from} - {job.salary_to}</Text>
+        </View>
+
+        <Divider style={{ height: 1, backgroundColor: "#cccccc" }} />
+
+        <View style={{ padding: 10 }}>
+          <Text>{job.description}</Text>
+        </View>
+        <View>
+          <MapView
+            style={{ width: "100%", height: 200 }}
+            cacheEnabled
+            initialRegion={{
+              latitude: job.location.latitude,
+              longitude: job.location.longitude,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+            }}
+          >
+            <MapView.Marker
+              coordinate={job.location}
+            />
+          </MapView>
+        </View>
       </View>
     )
   }
+}
+
+DetailJobScreen.propTypes = {
+  navigation: PropTypes.object,
 }
 
 export default DetailJobScreen
