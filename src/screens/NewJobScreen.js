@@ -1,8 +1,9 @@
 import React from "react"
 import { View, ScrollView } from "react-native"
-import { Switch } from "react-native"
+import { Switch, Keyboard } from "react-native"
 import { FormLabel, FormInput, Button } from "react-native-elements"
 import { Permissions, Location } from "expo"
+import KeyboardSpacer from "react-native-keyboard-spacer"
 
 import { auth, db } from "../firebase"
 
@@ -18,7 +19,12 @@ class NewJobScreen extends React.Component {
 
   componentDidMount() {
     this.getLocation()
+    // this.handleKeyboard()
   }
+
+  // handleKeyboard = () => {
+  //   Keyboard.addListener("keyboardDidShow", )
+  // }
 
   getLocation = async () => {
     const { status } = await Permissions.askAsync(Permissions.LOCATION)
@@ -116,6 +122,7 @@ class NewJobScreen extends React.Component {
             onPress={this.handleSave}
           />
         </View>
+        <KeyboardSpacer />
       </ScrollView>
     )
   }
