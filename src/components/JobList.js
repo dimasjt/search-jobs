@@ -11,10 +11,14 @@ import currency from "../util/currency"
 import { db, auth } from "../firebase"
 
 class JobList extends React.Component {
+  bookmarkRef = db.child(`bookmarks/${auth.currentUser.uid}`)
+
+  // redirect to detail job screen
   handlePress = () => {
     this.props.navigation.navigate("DetailJob", { job: this.props.job })
   }
 
+  // delete job action button
   handleDelete = () => {
     const actions = [
       { text: "Cancel", onPress: () => { } },
@@ -24,11 +28,18 @@ class JobList extends React.Component {
   }
 
   handleBookmark = () => {
-    db.child(`bookmarks/${auth.currentUser.uid}`).update({
-      [this.props.job.key]: true,
-    })
+    if (this.props.screen === "savedjobs") {
+      // delete bookmark
+      this.bookmarkRef.child(this.props.job.key).remove(() => { })
+    } else {
+      // add bookmark
+      this.bookmarkRef.update({
+        [this.props.job.key]: 1,
+      })
+    }
   }
 
+  // delete job
   deleteJob = () => {
     db.child(`jobs/${this.props.job.key}`).remove(() => { })
   }
