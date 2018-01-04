@@ -6,7 +6,7 @@ import { Location, Permissions } from "expo"
 import JobList from "../components/JobList"
 
 import * as colors from "../styles/colors"
-import { db } from "../firebase"
+import { auth, db } from "../firebase"
 
 class DashboardScreen extends React.Component {
   static navigationOptions = {
@@ -23,7 +23,11 @@ class DashboardScreen extends React.Component {
   }
 
   componentWillMount() {
-    this.getLocation()
+    auth.onAuthStateChanged(() => {
+      if (auth.currentUser) {
+        this.getLocation()
+      }
+    })
   }
 
   getLocation = async () => {
