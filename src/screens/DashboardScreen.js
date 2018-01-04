@@ -32,14 +32,12 @@ class DashboardScreen extends React.Component {
 
   componentWillMount() {
     this.getLocation()
-    // this.getJobs()
   }
 
   getLocation = async () => {
     const { status } = await Permissions.askAsync(Permissions.LOCATION)
 
     if (status !== "granted") {
-      console.log("permission denied")
       this.setState({ city: "All Location", getLocation: false })
     } else {
       const { coords } = await Location.getCurrentPositionAsync()
