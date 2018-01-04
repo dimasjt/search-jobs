@@ -5,6 +5,7 @@ import { Button } from "react-native-elements"
 import { Location, Permissions } from "expo"
 
 import JobList from "../components/JobList"
+import ActivityIndicator from "../components/ActivityIndicator"
 
 import * as colors from "../styles/colors"
 import { auth, db } from "../firebase"
@@ -26,8 +27,9 @@ class DashboardScreen extends React.Component {
 
   state = {
     jobs: [],
-    city: null,
+    city: "All Location",
     getLocation: false,
+    loading: true,
   }
 
   componentWillMount() {
@@ -50,6 +52,8 @@ class DashboardScreen extends React.Component {
   }
 
   getJobs = () => {
+    this.setState({ loading: true })
+
     let searchRef
     if (this.state.getLocation) {
       searchRef = this.jobsRef
@@ -67,7 +71,7 @@ class DashboardScreen extends React.Component {
         items.push(item)
       })
 
-      this.setState({ jobs: items })
+      this.setState({ jobs: items, loading: false })
     }
 
     searchRef.on("value", searchResult)
@@ -93,6 +97,7 @@ class DashboardScreen extends React.Component {
             icon={{ name: "location-pin", type: "entypo" }}
           />
         </View>
+        <ActivityIndicator active={this.state.loading} />
         <FlatList
           data={this.state.jobs}
           renderItem={this.renderItem}
