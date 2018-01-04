@@ -77,15 +77,13 @@ class DashboardScreen extends React.Component {
     searchRef.on("value", searchResult)
   }
 
-  renderItem = ({ item }) => {
-    return (
-      <JobList
-        {...this.props}
-        job={item}
-        screen="dashboard"
-      />
-    )
-  }
+  renderItem = ({ item }) => (
+    <JobList
+      {...this.props}
+      job={item}
+      screen="dashboard"
+    />
+  )
 
   render() {
     return (
