@@ -5,7 +5,6 @@ import { Button } from "react-native-elements"
 import { Location, Permissions } from "expo"
 
 import JobList from "../components/JobList"
-import ActivityIndicator from "../components/ActivityIndicator"
 
 import * as colors from "../styles/colors"
 import { auth, db } from "../firebase"
@@ -95,7 +94,6 @@ class DashboardScreen extends React.Component {
             icon={{ name: "location-pin", type: "entypo" }}
           />
         </View>
-        <ActivityIndicator active={this.state.loading} />
         <FlatList
           data={this.state.jobs}
           renderItem={this.renderItem}
