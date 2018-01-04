@@ -1,6 +1,6 @@
 import React from "react"
 import { View, ScrollView } from "react-native"
-import { Switch, Keyboard } from "react-native"
+import { Switch } from "react-native"
 import { FormLabel, FormInput, Button } from "react-native-elements"
 import { Permissions, Location } from "expo"
 import KeyboardSpacer from "react-native-keyboard-spacer"
