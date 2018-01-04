@@ -17,6 +17,8 @@ class NewJobScreen extends React.Component {
     job: {},
   }
 
+  form = {}
+
   componentDidMount() {
     this.getLocation()
     // this.handleKeyboard()
@@ -60,17 +62,29 @@ class NewJobScreen extends React.Component {
     ref.push({
       ...this.state.job,
       user: uid,
-    })
+    }, this.clearText)
+  }
+
+  clearText = () => {
+    ["name", "company", "description"].forEach(field => this.form[field].clearText())
+
+    this.setState({ showSalary: false })
   }
 
   render() {
     return (
       <ScrollView>
         <FormLabel>Job name</FormLabel>
-        <FormInput onChangeText={val => this.handleChange(val, "name")} />
+        <FormInput
+          onChangeText={val => this.handleChange(val, "name")}
+          ref={ref => this.form.name = ref}
+        />
 
         <FormLabel>Company name</FormLabel>
-        <FormInput onChangeText={val => this.handleChange(val, "company")} />
+        <FormInput
+          onChangeText={val => this.handleChange(val, "company")}
+          ref={ref => this.form.company = ref}
+        />
 
         <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start" }}>
           <FormLabel>Show salary</FormLabel>
@@ -114,6 +128,7 @@ class NewJobScreen extends React.Component {
           multiline
           numberOfLines={3}
           onChangeText={val => this.handleChange(val, "description")}
+          ref={ref => this.form.description = ref}
         />
 
         <View style={{ marginTop: 10, marginBottom: 10 }}>
