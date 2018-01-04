@@ -100,6 +100,8 @@ class DashboardScreen extends React.Component {
           data={this.state.jobs}
           renderItem={this.renderItem}
           style={{ height: "100%" }}
+          refreshing={this.state.loading}
+          onRefresh={this.getJobs}
         />
       </View>
     )

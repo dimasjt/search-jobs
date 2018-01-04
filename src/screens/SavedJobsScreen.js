@@ -11,7 +11,7 @@ class SavedJobsScreen extends React.Component {
     headerTitle: "Saved Jobs",
   }
 
-  state = { jobs: [] }
+  state = { jobs: [], loading: true }
 
   componentDidMount() {
     auth.onAuthStateChanged(() => {
@@ -22,6 +22,8 @@ class SavedJobsScreen extends React.Component {
   }
 
   getSavedJobs = () => {
+    this.setState({ loading: true })
+
     db.child(`bookmarks/${auth.currentUser.uid}`).on("value", (snapshot) => {
       let items = []
       snapshot.forEach((child) => {
@@ -33,7 +35,7 @@ class SavedJobsScreen extends React.Component {
         })
       })
 
-      this.setState({ jobs: items })
+      this.setState({ jobs: items, loading: false })
     })
   }
 
@@ -52,6 +54,8 @@ class SavedJobsScreen extends React.Component {
           data={this.state.jobs}
           renderItem={this.renderItem}
           style={{ height: "100%" }}
+          refreshing={this.state.loading}
+          onRefresh={this.getSavedJobs}
         />
       </View>
     )
