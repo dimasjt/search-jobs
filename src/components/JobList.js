@@ -1,5 +1,5 @@
 import React from "react"
-import { View, TouchableHighlight, TouchableOpacity, Alert } from "react-native"
+import { View, TouchableOpacity, Alert } from "react-native"
 import { Text } from "react-native-elements"
 import PropTypes from "prop-types"
 import Swipeable from "react-native-swipeable"
@@ -64,13 +64,13 @@ class JobList extends React.Component {
 
     return (
       <Swipeable rightButtons={rightButtons} leftButtons={leftButtons} rightButtonWidth={75}>
-        <TouchableHighlight onPress={this.handlePress}>
+        <TouchableOpacity onPress={this.handlePress}>
           <View style={{ padding: 10, borderBottomWidth: 1, borderBottomColor: "#ccc" }}>
             <Text h3>{job.name}</Text>
             <Text h4>{job.company}</Text>
             <Text>Salary: {currency(job.salary_from)} - {currency(job.salary_to)}</Text>
           </View>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </Swipeable>
     )
   }
