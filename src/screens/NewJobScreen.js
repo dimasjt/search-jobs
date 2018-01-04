@@ -13,7 +13,7 @@ class NewJobScreen extends React.Component {
 
   state = {
     showSalary: false,
-    job: {}
+    job: {},
   }
 
   componentDidMount() {
@@ -34,8 +34,8 @@ class NewJobScreen extends React.Component {
       job: {
         ...this.state.job,
         location: { ...location[0], latitude, longitude },
-        city: location[0].city
-      }
+        city: location[0].city,
+      },
     })
   }
 
@@ -44,7 +44,7 @@ class NewJobScreen extends React.Component {
       job: {
         ...this.state.job,
         [field]: value,
-      }
+      },
     })
   }
 

@@ -1,6 +1,8 @@
 import React from "react"
 import { View, FlatList } from "react-native"
 import { Ionicons } from "@expo/vector-icons"
+import { Button } from "react-native-elements"
+import { Location, Permissions } from "expo"
 
 import JobList from "../components/JobList"
 
@@ -24,14 +26,42 @@ class DashboardScreen extends React.Component {
 
   state = {
     jobs: [],
+    city: null,
+    getLocation: false,
   }
 
   componentWillMount() {
+    this.getLocation()
+    // this.getJobs()
+  }
+
+  getLocation = async () => {
+    const { status } = await Permissions.askAsync(Permissions.LOCATION)
+
+    if (status !== "granted") {
+      console.log("permission denied")
+      this.setState({ city: "All Location", getLocation: false })
+    } else {
+      const { coords } = await Location.getCurrentPositionAsync()
+      const { latitude, longitude } = coords
+      const location = await Location.reverseGeocodeAsync({ latitude, longitude })
+      this.setState({ city: location[0].city, getLocation: true })
+    }
+
     this.getJobs()
   }
 
   getJobs = () => {
-    this.jobsRef.orderByKey().on("value", (snapshot) => {
+    let searchRef
+    if (this.state.getLocation) {
+      searchRef = this.jobsRef
+        .orderByChild("city")
+        .equalTo(this.state.city)
+    } else {
+      searchRef = this.jobsRef
+    }
+
+    const searchResult = (snapshot) => {
       let items = []
       snapshot.forEach((child) => {
         let item = child.val()
@@ -40,7 +70,9 @@ class DashboardScreen extends React.Component {
       })
 
       this.setState({ jobs: items })
-    })
+    }
+
+    searchRef.on("value", searchResult)
   }
 
   renderItem = ({ item }) => {
@@ -56,6 +88,13 @@ class DashboardScreen extends React.Component {
   render() {
     return (
       <View style={{ backgroundColor: colors.white }}>
+        <View style={{ margin: 4, justifyContent: "center", alignItems: "center" }}>
+          <Button
+            raised
+            title={this.state.city}
+            icon={{ name: "location-pin", type: "entypo" }}
+          />
+        </View>
         <FlatList
           data={this.state.jobs}
           renderItem={this.renderItem}
