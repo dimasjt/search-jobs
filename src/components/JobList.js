@@ -59,7 +59,7 @@ class JobList extends React.Component {
 
     const leftButtons = screen !== "myjobs" ? [
       <TouchableOpacity key="0" style={css.leftAction} onPress={this.handleBookmark}>
-        <Ionicons name="ios-bookmark-outline" size={36} />
+        <Ionicons name="ios-heart-outline" size={36} />
       </TouchableOpacity >,
     ] : null
 

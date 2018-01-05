@@ -1,5 +1,5 @@
 import React from "react"
-import { View, Share } from "react-native"
+import { View, Share, Linking } from "react-native"
 import { Text } from "react-native-elements"
 import { Ionicons, Entypo } from "@expo/vector-icons"
 import PropTypes from "prop-types"
@@ -50,6 +50,21 @@ class DetailJobScreen extends React.Component {
     this.setState({ job: this.props.navigation.state.params.job })
   }
 
+  openInMaps = async () => {
+    const { location: { latitude, longitude }, city } = this.state.job
+    let openURL = "https://maps.google.com/maps?q="
+
+    if (latitude) {
+      openURL = openURL + `${latitude},${longitude}`
+    } else {
+      openURL = openURL + city
+    }
+    try {
+      await Linking.canOpenURL(openURL)
+      await Linking.openURL(openURL)
+    } catch (error) { console.log(error) }
+  }
+
   render() {
     const { job } = this.state
 
@@ -72,6 +87,7 @@ class DetailJobScreen extends React.Component {
         <View style={{ flex: 3, borderTopWidth: 1, borderTopColor: colors.grey }}>
           <MapView
             style={{ width: "100%", height: "100%" }}
+            onPress={this.openInMaps}
             cacheEnabled
             initialRegion={{
               latitude: job.location.latitude,

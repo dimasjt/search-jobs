@@ -43,7 +43,7 @@ const Routes = TabNavigator({
             screen: SavedJobsScreen,
             navigationOptions: {
               tabBarIcon({ focused }) {
-                const name = focused ? "ios-bookmark" : "ios-bookmark-outline"
+                const name = focused ? "ios-heart" : "ios-heart-outline"
                 return <Ionicons name={name} size={32} />
               },
               tabBarLabel: "Saved Jobs",
