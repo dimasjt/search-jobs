@@ -3,9 +3,10 @@ import { View, TouchableOpacity, Alert } from "react-native"
 import { Text } from "react-native-elements"
 import PropTypes from "prop-types"
 import Swipeable from "react-native-swipeable"
-import { Ionicons } from "@expo/vector-icons"
+import { Ionicons, Entypo } from "@expo/vector-icons"
 
 import css from "../styles"
+import * as colors from "../styles/colors"
 
 import currency from "../util/currency"
 import { db, auth } from "../firebase"
@@ -66,9 +67,16 @@ class JobList extends React.Component {
       <Swipeable rightButtons={rightButtons} leftButtons={leftButtons} rightButtonWidth={75}>
         <TouchableOpacity onPress={this.handlePress}>
           <View style={{ padding: 10, borderBottomWidth: 1, borderBottomColor: "#ccc" }}>
-            <Text h3>{job.name}</Text>
-            <Text h4>{job.company}</Text>
-            <Text>Salary: {currency(job.salary_from)} - {currency(job.salary_to)}</Text>
+            <Text h4 style={{ marginBottom: 6 }}>{job.name}</Text>
+            <Text style={{ color: colors.red, marginBottom: 4 }}>
+              <Entypo name="briefcase" /> {job.company}
+            </Text>
+            <Text style={{ marginBottom: 4 }}>
+              <Entypo name="location-pin" /> {job.city}
+            </Text>
+            {job.salary_from && job.salary_to && <Text style={{ color: colors.green }}>
+              $  {currency(job.salary_from)} - {currency(job.salary_to)}
+            </Text>}
           </View>
         </TouchableOpacity>
       </Swipeable>
