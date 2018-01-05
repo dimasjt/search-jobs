@@ -1,5 +1,5 @@
 import React from "react"
-import { View } from "react-native"
+import { View, Share } from "react-native"
 import { Text } from "react-native-elements"
 import { Ionicons, Entypo } from "@expo/vector-icons"
 import PropTypes from "prop-types"
@@ -7,21 +7,42 @@ import MapView from "react-native-maps"
 
 // NOTE: search location when location is null
 
+import { auth, db } from "../firebase"
 import currency from "../util/currency"
 import * as colors from "../styles/colors"
 
-class DetailJobScreen extends React.Component {
-  static navigationOptions = ({ navigation }) => ({
-    headerTitle: navigation.state.params.job.name,
+const navigationOptions = ({ navigation }) => {
+  const shareAction = () => {
+    Share.share({ title: "Job Recommended", url: "http://dimasjt.com", message: "You should apply this job" })
+  }
+  const saveJob = () => {
+    db.child(`bookmarks/${auth.currentUser.uid}`).update({
+      [navigation.state.params.job.key]: 1,
+    })
+  }
+
+  return {
     headerRight: (
-      <Ionicons
-        name="ios-more"
-        onPress={() => { }}
-        size={32}
-        style={{ marginRight: 10 }}
-      />
+      <View style={{ flexDirection: "row" }}>
+        <Ionicons
+          name="ios-heart-outline"
+          onPress={saveJob}
+          size={32}
+          style={{ marginRight: 12 }}
+        />
+        <Ionicons
+          name="ios-share-alt"
+          onPress={shareAction}
+          size={32}
+          style={{ marginRight: 10 }}
+        />
+      </View>
     ),
-  })
+  }
+}
+
+class DetailJobScreen extends React.Component {
+  static navigationOptions = navigationOptions
 
   state = { job: {} }
 
