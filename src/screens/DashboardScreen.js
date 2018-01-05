@@ -81,21 +81,22 @@ class DashboardScreen extends React.Component {
 
   render() {
     return (
-      <View style={{ backgroundColor: colors.white }}>
-        <View style={{ margin: 4, justifyContent: "center", alignItems: "center" }}>
+      <View style={{ backgroundColor: colors.white, flex: 1 }}>
+        <View style={{ justifyContent: "center", alignItems: "center", flex: 1 }}>
           <Button
             raised
             title={this.state.city}
             icon={{ name: "location-pin", type: "entypo" }}
           />
         </View>
-        <FlatList
-          data={this.state.jobs}
-          renderItem={this.renderItem}
-          style={{ height: "100%" }}
-          refreshing={this.state.loading}
-          onRefresh={this.getJobs}
-        />
+        <View style={{ flex: 7 }}>
+          <FlatList
+            data={this.state.jobs}
+            renderItem={this.renderItem}
+            refreshing={this.state.loading}
+            onRefresh={this.getJobs}
+          />
+        </View>
       </View>
     )
   }
