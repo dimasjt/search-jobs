@@ -46,9 +46,9 @@ class DetailJobScreen extends React.Component {
           <Text style={{ marginBottom: 4, color: colors.red }}>
             <Entypo name="briefcase" /> {job.company}
           </Text>
-          <Text style={{ marginBottom: 4, color: colors.green }}>
+          {job.salary_from && job.salary_to && <Text style={{ marginBottom: 4, color: colors.green }}>
             $  {currency(job.salary_from)} - {currency(job.salary_to)}
-          </Text>
+          </Text>}
         </View>
 
         <View style={{ padding: 10, flex: 3.8 }}>
