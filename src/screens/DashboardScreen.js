@@ -1,7 +1,7 @@
 import React from "react"
 import { View, FlatList } from "react-native"
 import { Button } from "react-native-elements"
-import { Location, Permissions } from "expo"
+import { Location, Permissions, Notifications } from "expo"
 
 import JobList from "../components/JobList"
 
@@ -25,9 +25,29 @@ class DashboardScreen extends React.Component {
   componentWillMount() {
     auth.onAuthStateChanged(() => {
       if (auth.currentUser) {
+        this.getNotification()
         this.getLocation()
       }
     })
+  }
+
+  getNotification = async () => {
+    const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS)
+    let finalStatus = existingStatus
+
+    if (existingStatus !== "granted") {
+      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS)
+      finalStatus = status
+    }
+
+    if (finalStatus !== "granted") { return }
+
+    try {
+      const token = await Notifications.getExponentPushTokenAsync()
+      db.child(`users/${auth.currentUser.uid}`).set({
+        token,
+      })
+    } catch (error) { console.log(error) }
   }
 
   getLocation = async () => {
