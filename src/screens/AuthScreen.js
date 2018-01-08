@@ -1,7 +1,8 @@
 import React from "react"
 import { View } from "react-native"
 import { SocialIcon, Text } from "react-native-elements"
-import { Facebook } from "expo"
+import { Facebook, LinearGradient } from "expo"
+import { Ionicons } from "@expo/vector-icons"
 import PropTypes from "prop-types"
 
 import firebase, { auth } from "../firebase"
@@ -40,16 +41,23 @@ class AuthScreen extends React.Component {
   render() {
     return (
       <View style={{ backgroundColor: colors.white, flex: 1, justifyContent: "center" }}>
-        <View style={{ alignItems: "center" }}>
-          <Text h1 style={{ marginBottom: 40 }}>SearchJobs</Text>
-          <Text style={{ marginBottom: 80 }}>Find nearby jobs for you</Text>
-        </View>
-        <SocialIcon
-          button
-          title="Login with Facebook"
-          onPress={this.handleLogin}
-          type="facebook"
-        />
+        <LinearGradient
+          colors={["#ecf0f1", "#ecf0f1"]}
+          style={{ flex: 1, justifyContent: "center" }}
+          start={[0.1, 1]}
+        >
+          <View style={{ alignItems: "center" }}>
+            <Text h1 style={{ marginBottom: 20, backgroundColor: "transparent" }}>SearchJobs</Text>
+            <Text style={{ marginBottom: 30, backgroundColor: "transparent" }}>Find nearby jobs for you</Text>
+            <Ionicons name="ios-briefcase" size={64} style={{ backgroundColor: "transparent", marginBottom: 40 }} />
+          </View>
+          <SocialIcon
+            button
+            title="Login with Facebook"
+            onPress={this.handleLogin}
+            type="facebook"
+          />
+        </LinearGradient>
       </View>
     )
   }
