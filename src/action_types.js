@@ -1,0 +1,1 @@
+export const BOOKMARKS_SET = "BOOKMARKS_SET"

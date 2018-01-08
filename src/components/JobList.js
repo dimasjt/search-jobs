@@ -4,6 +4,7 @@ import { Text } from "react-native-elements"
 import PropTypes from "prop-types"
 import Swipeable from "react-native-swipeable"
 import { Ionicons, Entypo } from "@expo/vector-icons"
+import { connect } from "react-redux"
 
 import css from "../styles"
 import * as colors from "../styles/colors"
@@ -46,7 +47,8 @@ class JobList extends React.Component {
   }
 
   render() {
-    const { job, screen } = this.props
+    const { job, screen, bookmarks } = this.props
+    const heartIcon = bookmarks.all.find(b => job.key === b.key) ? "ios-heart" : "ios-heart-outline"
 
     const rightButtons = screen === "myjobs" ? [
       <TouchableOpacity key="0" style={css.rightAction} onPress={this.handleDelete}>
@@ -59,7 +61,7 @@ class JobList extends React.Component {
 
     const leftButtons = screen !== "myjobs" ? [
       <TouchableOpacity key="0" style={css.leftAction} onPress={this.handleBookmark}>
-        <Ionicons name="ios-heart-outline" size={36} />
+        <Ionicons name={heartIcon} size={36} />
       </TouchableOpacity >,
     ] : null
 
@@ -88,6 +90,7 @@ JobList.propTypes = {
   job: PropTypes.object.isRequired,
   navigation: PropTypes.object,
   screen: PropTypes.string.isRequired,
+  bookmarks: PropTypes.object,
 }
 
-export default JobList
+export default connect(state => state)(JobList)

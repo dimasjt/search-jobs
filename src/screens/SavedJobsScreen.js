@@ -1,17 +1,20 @@
 import React from "react"
-import { View, FlatList, Text } from "react-native"
+import { View, FlatList } from "react-native"
+import { connect } from "react-redux"
+import PropTypes from "prop-types"
 
 import JobList from "../components/JobList"
 
 import * as colors from "../styles/colors"
 import { db, auth } from "../firebase"
+import { setBookmars } from "../actions/bookmark"
 
 class SavedJobsScreen extends React.Component {
   static navigationOptions = {
     headerTitle: "Saved Jobs",
   }
 
-  state = { jobs: [], loading: true }
+  state = { loading: true }
 
   componentDidMount() {
     auth.onAuthStateChanged(() => {
@@ -35,7 +38,8 @@ class SavedJobsScreen extends React.Component {
         })
       })
 
-      this.setState({ jobs: items, loading: false })
+      this.props.dispatch(setBookmars(items))
+      this.setState({ loading: false })
     })
   }
 
@@ -51,7 +55,7 @@ class SavedJobsScreen extends React.Component {
     return (
       <View style={{ backgroundColor: colors.white, flex: 1 }}>
         <FlatList
-          data={this.state.jobs}
+          data={this.props.bookmarks.all}
           renderItem={this.renderItem}
           style={{ height: "100%" }}
           refreshing={this.state.loading}
@@ -62,4 +66,9 @@ class SavedJobsScreen extends React.Component {
   }
 }
 
-export default SavedJobsScreen
+SavedJobsScreen.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  bookmarks: PropTypes.object.isRequired,
+}
+
+export default connect(state => state)(SavedJobsScreen)

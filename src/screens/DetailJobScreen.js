@@ -4,6 +4,7 @@ import { Text } from "react-native-elements"
 import { Ionicons, Entypo } from "@expo/vector-icons"
 import PropTypes from "prop-types"
 import MapView from "react-native-maps"
+import { connect } from "react-redux"
 
 // NOTE: search location when location is null
 
@@ -21,11 +22,12 @@ const navigationOptions = ({ navigation }) => {
     })
   }
 
-  return {
-    headerRight: (
+  const HeaderRight = connect(state => state)(({ bookmarks }) => {
+    const heartIcon = bookmarks.all.find(b => navigation.state.params.job.key === b.key) ? "ios-heart" : "ios-heart-outline"
+    return (
       <View style={{ flexDirection: "row" }}>
         <Ionicons
-          name="ios-heart-outline"
+          name={heartIcon}
           onPress={saveJob}
           size={32}
           style={{ marginRight: 12 }}
@@ -37,7 +39,11 @@ const navigationOptions = ({ navigation }) => {
           style={{ marginRight: 10 }}
         />
       </View>
-    ),
+    )
+  })
+
+  return {
+    headerRight: <HeaderRight />,
   }
 }
 
