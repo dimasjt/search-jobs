@@ -1,51 +1,16 @@
 import React from "react"
-import { View, Share, Linking } from "react-native"
+import { View, Linking } from "react-native"
 import { Text } from "react-native-elements"
-import { Ionicons, Entypo } from "@expo/vector-icons"
+import { Entypo } from "@expo/vector-icons"
 import PropTypes from "prop-types"
 import MapView from "react-native-maps"
-import { connect } from "react-redux"
 
 // NOTE: search location when location is null
 
-import { auth, db } from "../firebase"
 import currency from "../util/currency"
 import * as colors from "../styles/colors"
 
-const navigationOptions = ({ navigation }) => {
-  const shareAction = () => {
-    Share.share({ title: "Job Recommended", url: "http://dimasjt.com", message: "You should apply this job" })
-  }
-  const saveJob = () => {
-    db.child(`bookmarks/${auth.currentUser.uid}`).update({
-      [navigation.state.params.job.key]: 1,
-    })
-  }
-
-  const HeaderRight = connect(state => state)(({ bookmarks }) => {
-    const heartIcon = bookmarks.all.find(b => navigation.state.params.job.key === b.key) ? "ios-heart" : "ios-heart-outline"
-    return (
-      <View style={{ flexDirection: "row" }}>
-        <Ionicons
-          name={heartIcon}
-          onPress={saveJob}
-          size={32}
-          style={{ marginRight: 12 }}
-        />
-        <Ionicons
-          name="ios-share-alt"
-          onPress={shareAction}
-          size={32}
-          style={{ marginRight: 10 }}
-        />
-      </View>
-    )
-  })
-
-  return {
-    headerRight: <HeaderRight />,
-  }
-}
+import navigationOptions from "../components/DetailJob/NavigationOptions"
 
 class DetailJobScreen extends React.Component {
   static navigationOptions = navigationOptions
