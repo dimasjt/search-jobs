@@ -9,11 +9,6 @@ import store from "./src/store"
 
 const paddingTop = Platform.OS === "ios" ? 0 : Constants.statusBarHeight
 
-/* eslint no-console: 0 */
-console.ignoredYellowBox = [
-  'Setting a timer',
-]
-
 const App = () => (
   <Provider store={store}>
     <View style={{ flex: 1, paddingTop }}>
