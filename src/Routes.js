@@ -1,4 +1,3 @@
-import React from "react"
 import { TabNavigator, StackNavigator } from "react-navigation"
 
 import AuthScreen from "./screens/AuthScreen"
@@ -9,7 +8,64 @@ import DetailJobScreen from "./screens/DetailJobScreen"
 import NewJobScreen from "./screens/NewJobScreen"
 import SettingScreen from "./screens/SettingScreen"
 
-import Ionicons from "@expo/vector-icons/Ionicons";
+import * as TabIcons from "./components/TabIcons"
+
+const DashboardRoutes = TabNavigator({
+  Dashboard: {
+    screen: StackNavigator({
+      Dashboard: {
+        screen: DashboardScreen,
+      },
+      DetailJob: {
+        screen: DetailJobScreen,
+      },
+    }),
+    navigationOptions: {
+      tabBarLabel: TabIcons.dashboard,
+    },
+  },
+  SavedJobs: {
+    screen: StackNavigator({
+      SavedJobs: {
+        screen: SavedJobsScreen,
+        navigationOptions: {
+          tabBarLabel: TabIcons.savedJobs,
+        },
+      },
+    }),
+  },
+  MyJobs: {
+    screen: StackNavigator({
+      MyJobs: {
+        screen: MyJobsScreen,
+      },
+      NewJob: {
+        screen: NewJobScreen,
+      },
+    }),
+    navigationOptions: {
+      tabBarLabel: TabIcons.myJobs,
+    },
+  },
+  Setting: {
+    screen: StackNavigator({
+      SettingHome: {
+        screen: SettingScreen,
+      },
+    }),
+    navigationOptions: {
+      tabBarLabel: TabIcons.settings,
+    },
+  },
+}, {
+    swipeEnabled: false,
+    tabBarPosition: "bottom",
+    tabBarOptions: {
+      tabStyle: {
+        justifyContent: "center",
+      },
+    },
+  })
 
 const Routes = TabNavigator({
   Auth: {
@@ -19,76 +75,14 @@ const Routes = TabNavigator({
     },
   },
   Dashboard: {
-    screen: TabNavigator({
-      Dashboard: {
-        screen: StackNavigator({
-          Dashboard: {
-            screen: DashboardScreen,
-          },
-          DetailJob: {
-            screen: DetailJobScreen,
-          },
-        }),
-        navigationOptions: {
-          tabBarIcon({ focused }) {
-            const name = focused ? "ios-home" : "ios-home-outline"
-            return <Ionicons name={name} size={32} />
-          },
-          tabBarLabel: "Dashboard",
-        },
-      },
-      SavedJobs: {
-        screen: StackNavigator({
-          SavedJobs: {
-            screen: SavedJobsScreen,
-            navigationOptions: {
-              tabBarIcon({ focused }) {
-                const name = focused ? "ios-heart" : "ios-heart-outline"
-                return <Ionicons name={name} size={32} />
-              },
-              tabBarLabel: "Saved Jobs",
-            },
-          },
-        }),
-      },
-      MyJobs: {
-        screen: StackNavigator({
-          MyJobs: {
-            screen: MyJobsScreen,
-          },
-          NewJob: {
-            screen: NewJobScreen,
-          },
-        }),
-        navigationOptions: {
-          tabBarIcon({ focused }) {
-            const name = focused ? "ios-list" : "ios-list-outline"
-            return <Ionicons name={name} size={32} />
-          },
-          tabBarLabel: "My Jobs",
-        },
-      },
-      Setting: {
-        screen: StackNavigator({
-          SettingHome: {
-            screen: SettingScreen,
-          },
-        }),
-        navigationOptions: {
-          tabBarIcon({ focused }) {
-            const name = focused ? "ios-settings" : "ios-settings-outline"
-            return <Ionicons name={name} size={32} />
-          },
-          tabBarLabel: "Settings",
-        },
-      },
-    }),
+    screen: DashboardRoutes,
     navigationOptions: {
       tabBarVisible: false,
     },
   },
 }, {
     initialRouteName: "Auth",
+    swipeEnabled: false,
   })
 
 export default Routes
